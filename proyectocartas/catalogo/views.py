@@ -2,7 +2,6 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-# Datos de ejemplo para el recurso Vendedor (Paso 2)
 vendedores = [
     {
         "id": 1,
@@ -31,3 +30,20 @@ vendedores = [
 @api_view(['GET'])
 def listar_vendedores(request):
     return Response(vendedores)
+
+@api_view(['POST'])
+def crear_vendedor(request):
+    datos = request.data
+    
+    nuevo_id = max([v["id"] for v in vendedores], default=0) + 1
+    
+    nuevo_vendedor = {
+        "id": nuevo_id,
+        "nombre": datos.get("nombre"),
+        "reputacion": datos.get("reputacion"),
+        "especialidad": datos.get("especialidad"),
+        "ventas_realizadas": datos.get("ventas_realizadas", 0)
+    }
+    
+    vendedores.append(nuevo_vendedor)
+    return Response(nuevo_vendedor, status=status.HTTP_201_CREATED)
