@@ -8,3 +8,8 @@ cartas_lista = [
     {"id": 2, "nombre": "Pikachu VMAX", "tipo": "Rayo", "rareza": "Secreta", "hp": 310},
     {"id": 3, "nombre": "Mewtwo V", "tipo": "Psíquico", "rareza": "Rara Holo", "hp": 220},
 ]
+
+@api_view(['GET'])
+def obtener_cartas(request):
+    """Devuelve la lista completa de cartas Pokémon."""
+    return Response(cartas_lista)
