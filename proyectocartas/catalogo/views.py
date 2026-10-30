@@ -26,3 +26,8 @@ vendedores = [
         "ventas_realizadas": 210
     }
 ]
+
+
+@api_view(['GET'])
+def listar_vendedores(request):
+    return Response(vendedores)
