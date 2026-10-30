@@ -7,4 +7,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('vendedores/', listar_vendedores, name='listar_vendedores'),
     path('vendedores/crear/', crear_vendedor, name='crear_vendedor'),
+    path('api/', include('catalogo.urls')),  
 ]
