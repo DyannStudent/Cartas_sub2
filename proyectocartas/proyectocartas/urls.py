@@ -1,24 +1,11 @@
-"""
-URL configuration for proyectocartas project.
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-
-from django.urls import path
-from .views import obtener_cartas, crear_carta
+from django.contrib import admin
+from django.urls import include, path
+from catalogo.views import listar_vendedores, crear_vendedor
 
 urlpatterns = [
-    path('cartas/', obtener_cartas, name='obtener-cartas'),
-    path('cartas/crear/', crear_carta, name='crear-carta'),
+    path('admin/', admin.site.urls),
+    path('vendedores/', listar_vendedores, name='listar_vendedores'),
+    path('vendedores/crear/', crear_vendedor, name='crear_vendedor'),
+    path('', include('catalogo.urls')),  
 ]

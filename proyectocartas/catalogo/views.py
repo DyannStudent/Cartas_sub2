@@ -3,28 +3,70 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-cartas_lista = [
-    {"id": 1, "nombre": "Charizard ex", "tipo": "Fuego", "rareza": "Ultra Rara", "hp": 330},
-    {"id": 2, "nombre": "Pikachu VMAX", "tipo": "Rayo", "rareza": "Secreta", "hp": 310},
-    {"id": 3, "nombre": "Mewtwo V", "tipo": "Psíquico", "rareza": "Rara Holo", "hp": 220},
+vendedores = [
+    {
+        "id": 1,
+        "nombre": "Ash PokéCenter",
+        "reputacion": 4.9,
+        "especialidad": "Primera Edición y Antiguas",
+        "ventas_realizadas": 154
+    },
+    {
+        "id": 2,
+        "nombre": "Misty Cards Store",
+        "reputacion": 4.7,
+        "especialidad": "Cartas Tipo Agua y Holo",
+        "ventas_realizadas": 89
+    },
+    {
+        "id": 3,
+        "nombre": "Brock Collectibles",
+        "reputacion": 4.5,
+        "especialidad": "Ediciones Japonesas y Selladas",
+        "ventas_realizadas": 210
+    }
+]
+
+
+@api_view(['GET'])
+def listar_vendedores(request):
+    return Response(vendedores)
+
+@api_view(['POST'])
+def crear_vendedor(request):
+    datos = request.data
+    
+    nuevo_id = max([v["id"] for v in vendedores], default=0) + 1
+    
+    nuevo_vendedor = {
+        "id": nuevo_id,
+        "nombre": datos.get("nombre"),
+        "reputacion": datos.get("reputacion"),
+        "especialidad": datos.get("especialidad"),
+        "ventas_realizadas": datos.get("ventas_realizadas", 0)
+    }
+    
+    vendedores.append(nuevo_vendedor)
+    return Response(nuevo_vendedor, status=status.HTTP_201_CREATED)
+#recursos del ote
+cartas = [
+    {"id": 1, "nombre": "Omanyte", "rareza": "no comun", "precio": 10.00},
+    {"id": 2, "nombre": "Goldeen", "rareza": "comun", "precio": 5.00},
+    {"id": 3, "nombre": "Lapras", "rareza": "rara", "precio": 15.00},
+    {"id": 3, "nombre": "Mewtwo", "rareza": "Legendario", "precio": 30.00},
 ]
 
 @api_view(['GET'])
 def obtener_cartas(request):
-    """Devuelve la lista completa de cartas Pokémon."""
-    return Response(cartas_lista)
+    return Response(cartas)
 
 @api_view(['POST'])
-def crear_carta(request):
-    """Recibe los datos de una nueva carta, le asigna ID y la agrega a la lista."""
-    nueva_carta = request.data.copy()
-
-    # Asignar un ID automático basado en el último elemento
-    nuevo_id = cartas_lista[-1]["id"] + 1 if cartas_lista else 1
-    nueva_carta["id"] = nuevo_id
-
-    # Agregar a la lista en memoria
-    cartas_lista.append(nueva_carta)
-
-    # Retornar el registro creado con código 201 CREATED
-    return Response(nueva_carta, status=status.HTTP_201_CREATED)
+def crear_cartas(request):
+    nuevo_registro = request.data
+    
+    nuevo_id = len(cartas) + 1 if cartas else 1
+    nuevo_registro["id"] = nuevo_id
+    
+    cartas.append(nuevo_registro)
+    
+    return Response(nuevo_registro, status=status.HTTP_201_CREATED)
