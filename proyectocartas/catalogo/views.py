@@ -70,3 +70,35 @@ def crear_cartas(request):
     cartas.append(nuevo_registro)
     
     return Response(nuevo_registro, status=status.HTTP_201_CREATED)
+
+
+# ---------------- Recurso Cliente (Andrés) ----------------
+clientes = [
+    {"id": 1, "nombre": "Gary Oak", "email": "gary@pallet.cl", "ciudad": "Santiago", "cartas_compradas": 12},
+    {"id": 2, "nombre": "Serena Kalos", "email": "serena@kalos.cl", "ciudad": "Valparaíso", "cartas_compradas": 7},
+    {"id": 3, "nombre": "Dawn Berlitz", "email": "dawn@sinnoh.cl", "ciudad": "Concepción", "cartas_compradas": 20},
+]
+
+
+@api_view(['GET'])
+def listar_clientes(request):
+    """Devuelve la lista completa de clientes de la tienda."""
+    return Response(clientes)
+
+
+@api_view(['POST'])
+def crear_cliente(request):
+    """Recibe un cliente nuevo desde request.data, le asigna id y lo agrega a la lista."""
+    datos = request.data
+    nuevo_id = max([c["id"] for c in clientes], default=0) + 1
+
+    nuevo_cliente = {
+        "id": nuevo_id,
+        "nombre": datos.get("nombre"),
+        "email": datos.get("email"),
+        "ciudad": datos.get("ciudad"),
+        "cartas_compradas": datos.get("cartas_compradas", 0),
+    }
+
+    clientes.append(nuevo_cliente)
+    return Response(nuevo_cliente, status=status.HTTP_201_CREATED)
