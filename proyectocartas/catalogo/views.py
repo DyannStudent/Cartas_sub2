@@ -84,3 +84,21 @@ clientes = [
 def listar_clientes(request):
     """Devuelve la lista completa de clientes de la tienda."""
     return Response(clientes)
+
+
+@api_view(['POST'])
+def crear_cliente(request):
+    """Recibe un cliente nuevo desde request.data, le asigna id y lo agrega a la lista."""
+    datos = request.data
+    nuevo_id = max([c["id"] for c in clientes], default=0) + 1
+
+    nuevo_cliente = {
+        "id": nuevo_id,
+        "nombre": datos.get("nombre"),
+        "email": datos.get("email"),
+        "ciudad": datos.get("ciudad"),
+        "cartas_compradas": datos.get("cartas_compradas", 0),
+    }
+
+    clientes.append(nuevo_cliente)
+    return Response(nuevo_cliente, status=status.HTTP_201_CREATED)
