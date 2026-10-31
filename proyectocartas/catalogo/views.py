@@ -78,3 +78,9 @@ clientes = [
     {"id": 2, "nombre": "Serena Kalos", "email": "serena@kalos.cl", "ciudad": "Valparaíso", "cartas_compradas": 7},
     {"id": 3, "nombre": "Dawn Berlitz", "email": "dawn@sinnoh.cl", "ciudad": "Concepción", "cartas_compradas": 20},
 ]
+
+
+@api_view(['GET'])
+def listar_clientes(request):
+    """Devuelve la lista completa de clientes de la tienda."""
+    return Response(clientes)
