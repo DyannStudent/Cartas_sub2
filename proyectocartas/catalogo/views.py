@@ -1,53 +1,49 @@
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.views import APIView
 
-vendedores = [
-    {
-        "id": 1,
-        "nombre": "Ash PokéCenter",
-        "reputacion": 4.9,
-        "especialidad": "Primera Edición y Antiguas",
-        "ventas_realizadas": 154
-    },
-    {
-        "id": 2,
-        "nombre": "Misty Cards Store",
-        "reputacion": 4.7,
-        "especialidad": "Cartas Tipo Agua y Holo",
-        "ventas_realizadas": 89
-    },
-    {
-        "id": 3,
-        "nombre": "Brock Collectibles",
-        "reputacion": 4.5,
-        "especialidad": "Ediciones Japonesas y Selladas",
-        "ventas_realizadas": 210
-    }
-]
+from .models import Vendedor
+from .serializers import VendedorSerializer
 
 
 @api_view(['GET'])
 def listar_vendedores(request):
-    return Response(vendedores)
+    vendedores = Vendedor.objects.all()
+    serializer = VendedorSerializer(vendedores, many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 def crear_vendedor(request):
-    datos = request.data
-    
-    nuevo_id = max([v["id"] for v in vendedores], default=0) + 1
-    
-    nuevo_vendedor = {
-        "id": nuevo_id,
-        "nombre": datos.get("nombre"),
-        "reputacion": datos.get("reputacion"),
-        "especialidad": datos.get("especialidad"),
-        "ventas_realizadas": datos.get("ventas_realizadas", 0)
-    }
-    
-    vendedores.append(nuevo_vendedor)
-    return Response(nuevo_vendedor, status=status.HTTP_201_CREATED)
+    serializer = VendedorSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class VendedorDetail(APIView):
+    def get_object(self, pk):
+        return get_object_or_404(Vendedor, pk=pk)
+
+    def get(self, request, pk):
+        vendedor = self.get_object(pk)
+        serializer = VendedorSerializer(vendedor)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        vendedor = self.get_object(pk)
+        serializer = VendedorSerializer(vendedor, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def delete(self, request, pk):
+        vendedor = self.get_object(pk)
+        vendedor.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 #recursos del ote
 cartas = [
     {"id": 1, "nombre": "Omanyte", "rareza": "no comun", "precio": 10.00},
