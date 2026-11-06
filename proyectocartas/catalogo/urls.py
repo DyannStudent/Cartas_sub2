@@ -1,16 +1,18 @@
-from rest_framework.routers import DefaultRouter
-from django.urls import include, path
+from django.urls import path, include
 from . import views
+from .views import cartasList, cartasDetail
+from rest_framework.routers import DefaultRouter
+from .views import cartasViewSet
 from .views import VendedorViewSet
 
 router = DefaultRouter()
 router.register(r'vendedores', VendedorViewSet, basename='vendedor')
 
+router.register(r'cartas', cartasViewSet, basename='cartas')
+
 urlpatterns = router.urls + [
 router.register(r'clientes', views.ClienteViewSet, basename='cliente')
 
 urlpatterns = [
-    path('cartas/', views.obtener_cartas, name='obtener_cartas'),
-    path('cartas/crear/', views.crear_cartas, name='crear_cartas'),
     path('', include(router.urls)),
 ]
