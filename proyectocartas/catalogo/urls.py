@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import cartasList, cartasDetail
 
 urlpatterns = [
     path('cartas/', views.obtener_cartas, name='obtener_cartas'),
