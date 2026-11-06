@@ -14,6 +14,8 @@ class cartasSerializer(serializers.ModelSerializer):
 class VendedorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendedor
+        fields = '__all__'
+
 
 
 # ---------------- Recurso Cliente (Andrés) ----------------

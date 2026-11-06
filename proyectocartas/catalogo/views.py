@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from .models import cartas
-from .serializers import cartaSerializer
+from .serializers import cartasSerializer
 from rest_framework import viewsets
 
 from .models import Cliente
@@ -16,14 +16,6 @@ from .serializers import VendedorSerializer
 class VendedorViewSet(viewsets.ModelViewSet):
     queryset = Vendedor.objects.all()
     serializer_class = VendedorSerializer
-
-#recursos del ote
-cartas = [
-    {"id": 1, "nombre": "Omanyte", "rareza": "no comun", "precio": 10.00},
-    {"id": 2, "nombre": "Goldeen", "rareza": "comun", "precio": 5.00},
-    {"id": 3, "nombre": "Lapras", "rareza": "rara", "precio": 15.00},
-    {"id": 3, "nombre": "Mewtwo", "rareza": "Legendario", "precio": 30.00},
-]
 
 #class cartaList(APIView):
 #    def get(self, request):

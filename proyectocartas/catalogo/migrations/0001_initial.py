@@ -18,6 +18,9 @@ class Migration(migrations.Migration):
                 ('nombre', models.CharField(max_length=100)),
                 ('rareza', models.CharField(max_length=100)),
                 ('precio', models.DecimalField(decimal_places=2, max_digits=10)),
+            ],
+        ),
+        migrations.CreateModel(
             name='Vendedor',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -25,6 +28,9 @@ class Migration(migrations.Migration):
                 ('reputacion', models.FloatField()),
                 ('especialidad', models.CharField(max_length=200)),
                 ('ventas_realizadas', models.IntegerField(default=0)),
+            ],
+        ),
+        migrations.CreateModel(
             name='Cliente',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
