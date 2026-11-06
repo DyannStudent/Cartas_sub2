@@ -1,9 +1,10 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 from . import views
+from .views import VendedorViewSet
 
 router = DefaultRouter()
-router.register('vendedores', views.VendedorViewSet, basename='vendedor')
+router.register(r'vendedores', VendedorViewSet, basename='vendedor')
 
 urlpatterns = router.urls + [
     path('cartas/', views.obtener_cartas, name='obtener_cartas'),
