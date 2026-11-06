@@ -6,4 +6,6 @@ urlpatterns = [
     path('cartas/crear/', views.crear_cartas, name='crear_cartas'),
     path('clientes/', views.listar_clientes, name='listar_clientes'),
     path('clientes/crear/', views.crear_cliente, name='crear_cliente'),
+    path('cartas/', cartasList.as_view(), name='cartas-list'),
+    path('cartas/<int:pk>/', cartasDetail.as_view(), name='cartas-detail'),
 ]
