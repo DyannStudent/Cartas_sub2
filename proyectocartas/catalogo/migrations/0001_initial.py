@@ -18,6 +18,20 @@ class Migration(migrations.Migration):
                 ('nombre', models.CharField(max_length=100)),
                 ('rareza', models.CharField(max_length=100)),
                 ('precio', models.DecimalField(decimal_places=2, max_digits=10)),
+            name='Vendedor',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('nombre', models.CharField(max_length=100)),
+                ('reputacion', models.FloatField()),
+                ('especialidad', models.CharField(max_length=200)),
+                ('ventas_realizadas', models.IntegerField(default=0)),
+            name='Cliente',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('nombre', models.CharField(max_length=100)),
+                ('email', models.EmailField(max_length=254)),
+                ('ciudad', models.CharField(max_length=100)),
+                ('cartas_compradas', models.IntegerField(default=0)),
             ],
         ),
     ]
