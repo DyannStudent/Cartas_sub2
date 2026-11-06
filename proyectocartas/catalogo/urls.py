@@ -1,8 +1,11 @@
 from django.urls import path
+from rest_framework.routers import DefaultRouter
 from . import views
 
-urlpatterns = [
-    path('vendedores/<int:pk>/', views.VendedorDetail.as_view(), name='detalle_vendedor'),
+router = DefaultRouter()
+router.register('vendedores', views.VendedorViewSet, basename='vendedor')
+
+urlpatterns = router.urls + [
     path('cartas/', views.obtener_cartas, name='obtener_cartas'),
     path('cartas/crear/', views.crear_cartas, name='crear_cartas'),
     path('clientes/', views.listar_clientes, name='listar_clientes'),

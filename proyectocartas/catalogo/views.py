@@ -1,48 +1,15 @@
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework import viewsets
 
 from .models import Vendedor
 from .serializers import VendedorSerializer
 
 
-@api_view(['GET'])
-def listar_vendedores(request):
-    vendedores = Vendedor.objects.all()
-    serializer = VendedorSerializer(vendedores, many=True)
-    return Response(serializer.data)
-
-@api_view(['POST'])
-def crear_vendedor(request):
-    serializer = VendedorSerializer(data=request.data)
-    serializer.is_valid(raise_exception=True)
-    serializer.save()
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-class VendedorDetail(APIView):
-    def get_object(self, pk):
-        return get_object_or_404(Vendedor, pk=pk)
-
-    def get(self, request, pk):
-        vendedor = self.get_object(pk)
-        serializer = VendedorSerializer(vendedor)
-        return Response(serializer.data)
-
-    def put(self, request, pk):
-        vendedor = self.get_object(pk)
-        serializer = VendedorSerializer(vendedor, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-
-    def delete(self, request, pk):
-        vendedor = self.get_object(pk)
-        vendedor.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+class VendedorViewSet(viewsets.ModelViewSet):
+    queryset = Vendedor.objects.all()
+    serializer_class = VendedorSerializer
 
 #recursos del ote
 cartas = [
